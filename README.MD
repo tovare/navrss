@@ -10,5 +10,5 @@ ARBEIDAPI: "<insert key>"
 ```
 
 The live version can be found:
-https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed 
+https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed
 
