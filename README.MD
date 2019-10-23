@@ -1,14 +1,35 @@
 
 
-Google cloud function to convert NAVs API to RSS (https://github.com/navikt/pam-public-feed)
+# RSS 2.0 feed for NAV job ads public API
 
+A google cloud function to convert NAVs API to RSS 2.0 (https://github.com/navikt/pam-public-feed)
+
+Intended to be suitable for tools like Feedly, IFTTT and facebook.
+
+## Production-version
+https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed
+
+## Supported filters
+
+(see original API for docs)
+
+* size
+* municipal
+* county
+
+https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed?size=100&municipal=BERGEN
+
+## Configure and deploy
+
+### With development token:
+gcloud functions deploy RSSFeed --memory=128 --runtime go111 --trigger-http
+
+### With production token from NAV:
 gcloud functions deploy RSSFeed --memory=128 --runtime go111 --trigger-http --env-vars-file .env.yaml
 
-Where .env.yaml contains:
+Create a filee for enviromeent configuration .env.yaml contains:
 ```
 ARBEIDAPI: "<insert key>"
 ```
 
-The live version can be found:
-https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed
 
