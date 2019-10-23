@@ -1,6 +1,6 @@
 
 
-# RSS 2.0 feed for NAV job ads public API
+# RSS 2.0 feed from NAV job ads public API
 
 A google cloud function to convert NAVs API to RSS 2.0 (https://github.com/navikt/pam-public-feed)
 
