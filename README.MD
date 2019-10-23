@@ -7,8 +7,10 @@ A google cloud function to convert NAVs API to RSS 2.0 (https://github.com/navik
 Intended to be suitable for tools like Feedly, IFTTT and Facebook pages.
 
 
-## Production-version
+## Link to the feed 
 https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed
+
+(Feel free to just use this)
 
 ## Supported filters
 
