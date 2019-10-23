@@ -8,11 +8,12 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
 // Google Cloud Function free tier:
-// gcloud functions deploy RSSFeed --memory=128 --runtime go111 --trigger-http
+// gcloud functions deploy RSSFeed --memory=128 --runtime go111 --trigger-http --env-vars-file .env.yaml
 // https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed
 
 //***********************************************
@@ -161,8 +162,11 @@ func RSSFeed(w http.ResponseWriter, r *http.Request) {
 	var jobs Jobs
 	{
 		// Build query for job adverts.
-		// Below is the public token, replace with private token for continued service.
-		bearer := "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdWJsaWMudG9rZW4udjFAbmF2Lm5vIiwiYXVkIjoiZmVlZC1hcGktdjEiLCJpc3MiOiJuYXYubm8iLCJpYXQiOjE1NTc0NzM0MjJ9.jNGlLUF9HxoHo5JrQNMkweLj_91bgk97ZebLdfx3_UQ"
+		var bearer string
+		if bearer = os.Getenv("ARBEIDAPI"); bearer == "" {
+			// Below is the public token, replace with private token for continued service.
+			bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdWJsaWMudG9rZW4udjFAbmF2Lm5vIiwiYXVkIjoiZmVlZC1hcGktdjEiLCJpc3MiOiJuYXYubm8iLCJpYXQiOjE1NTc0NzM0MjJ9.jNGlLUF9HxoHo5JrQNMkweLj_91bgk97ZebLdfx3_UQ"
+		}
 		url := "https://arbeidsplassen.nav.no/public-feed/api/v1/ads"
 		req, err := http.NewRequest("GET", url, nil)
 		req.Header.Add("Authorization", bearer)
