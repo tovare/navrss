@@ -96,7 +96,7 @@ var errorData = []byte(`
 {
 	"content": [
 	  {
-		"uuid": "ddf8fe54-853c-4a4a-9969-07342e71e4ba",
+		"uuid": "",
 		"published": "2019-10-22T22:00:00Z",
 		"expires": "2019-11-09T23:00:00Z",
 		"updated": "2019-10-22T22:00:00.088822Z",
@@ -111,7 +111,7 @@ var errorData = []byte(`
 		  }
 		],
 		"title": "Lærer med tegnspråk",
-		"description": "<p>Org. nr: 976677218 Stillingsident: 4144720310 Presentasjon av stillingen:</p>\n<p>Ved Dalgård skole og ressurssenter er det ledig en fast 100 prosent stilling som lærer med tegnspråkkompetanse.</p>\n<p>Dalgård skole og ressurssenter består av et stort mangfold med 640 elever og 150 ansatte. De aller fleste elevene tilhører nærskolen på 1.-7. trinn. Ressurssenteret gir opplæring til elever med store og sammensatte behov på 1.-10. trinn fra hele Trondheim kommune. SFO er en naturlig del av vår virksomhet. Som medarbeider på Dalgård skole og ressurssenter er du en del av et rikt kompetansemiljø.</p>\n<p><a href=\"https://www.trondheim.kommune.no/org/oppvekst/skoler/dalgard-skole/\" rel=\"nofollow\">Les mer om oss Dalgård skole og ressurssenter på våre hjemmesider</a>.</p>\n<h3>Arbeidsoppgaver</h3>\n<ul><li>Lærer for alle elever, også med tegnspråk som førstespråk</li><li>Deltakelse i et hjem-skole samarbeid og samarbeid med ulike instanser etter behov</li><li>Deltakelse i teamarbeid med både pedagoger og miljøpersonalet</li><li>Deltakelse i skolens pedagogiske utviklingsarbeid</li><li>Ta i et tak og finne gode løsninger i skolehverdagen</li></ul>\n<h3>Kvalifikasjoner</h3>\n<ul><li>Grunnskolelærerutdanning 1.-7.</li><li>Formell kompetanse i tegnspråk</li><li>God kompetanse i relasjonsbygging ift alle typer elever er nødvendig</li><li>Ønskelig med erfaring fra undervisning der tegnspråk brukes i klasserommet</li><li>Ønskelig med erfaring fra undervisning og kommunikasjon på tegnspråk</li><li>Skolen har svømmehall. Det er nødvendig at den som tilsettes kan være med elever i basseng.</li></ul>\n<h3>Utdanningsretning</h3>\n<ul><li>Pedagogikk</li></ul>\n<h3>Utdanningsnivå</h3>\n<ul><li>Høyskole / Universitet</li></ul>\n<h3>Personlige egenskaper</h3>\n<ul><li>Skolen søker etter lærere som synliggjør sitt engasjement for skoleutvikling</li><li>Vi søker lærere som ønsker å være i utvikling både faglig og sosialt, og som ser tydelig klasseledelse og arbeid med å skape gode relasjoner i gruppa som en sentral forutsetning for elevers læring og utvikling</li><li>Samarbeidsevne, fleksibilitet og godt humør er personlige egenskaper som verdsettes høyt</li><li>Skolen har elever med ulike hjelpebehov. De som tilsettes må kunne yte praktisk hjelp i hverdagen, og må også være forberedt på å bistå elever med utagerende atferd. Søkere med relevant tilleggskompetanse/ personlige egenskaper/ interesser i forhold til Dalgård skoles elevmangfold ønskes</li><li>Ettersom noen av våre elever har behov for bistand i garderobesituasjoner og med daglig hygiene, ønsker vi ansatte av begge kjønn</li></ul>\n<h3>Language</h3>\n<ul><li>Norsk</li></ul>\n<h3>Vi tilbyr</h3>\n<ul><li>Et godt arbeidsmiljø i en levende kunnskapsvirksomhet, der det å jobbe tverrfaglig og i fellesskap er sentralt</li><li>En arbeidsplass der et utvidet kulturbegrep og det gode humør betyr mye for vår skoles identitet</li><li>Lønn etter sentrale avtaler og Trondheim kommunes lokale avtaler</li><li>Gode pensjons- og forsikringsordninger</li></ul>\n<h3>Kontaktinformasjon</h3>\n<p>Elin Gjønnes, Avdelingsleder, 90753795<br />\nGro Kristiansen, Rektor, 72545002 / 91642234</p>\n<h3>Arbeidssted</h3>\n<p>Anders Wigens veg 3<br />\n7024 Trondheim</p>\n<p>Søk på stillingen:<a href=\"https://candidate.webcruiter.com/cv?advertid&#61;4144720310&amp;language&#61;nb&amp;link_source_id&#61;17\" rel=\"nofollow\">Klikk her</a></p>\n<h3>Nøkkelinformasjon:</h3>\n<p>Arbeidsgiver:Trondheim kommune</p>\n<p>Referansenr.:4144720310<br />\nStillingsprosent: 100%<br />\nStartdato: 01.12.2019<br />\nSøknadsfrist: 10.11.2019</p>\n",
+		"description": "\n",
 		"sourceurl": null,
 		"source": "XML_STILLING",
 		"applicationDue": "2019-11-10T00:00",
@@ -126,11 +126,11 @@ var errorData = []byte(`
 		  }
 		],
 		"jobtitle": null,
-		"link": "https://arbeidsplassen.nav.no/stillinger/stilling/ddf8fe54-853c-4a4a-9969-07342e71e4ba",
+		"link": "https://arbeidsplassen.nav.no/stillinger/",
 		"employer": {
-		  "name": "Dalgård skole og ressurssenter, Trondheim kommune",
-		  "orgnr": "976677218",
-		  "description": "<p><strong>Åpen -- kompetent -- modig</strong></p>\n<p>Trondheim kommune er landets tredje største kommune, og en av Norges største arbeidsplasser nord for Dovre. Hver dag arbeider om lag 13 000 medarbeidere med å gi byens innbyggere gode helse- og velferdstjenester, utviklende oppvekst- og utdanningsmuligheter, et godt bymiljø og en rekke kultur- og fritidstilbud. Trondheim kommune er en framtidsrettet og moderne arbeidsgiver som samarbeider nært med byens forsknings-, universitets- og høgskolemiljø.</p>\n<p>Les mer om <a href=\"https://www.trondheim.kommune.no/\" rel=\"nofollow\">Trondheim kommune</a></p>\n<p>Trondheim kommune ønsker mangfold og oppfordrer kvalifiserte kandidater til å søke uansett alder, kjønn, etnisitet og funksjonsnedsettelser. Etter søknadsfristens utløp blir det utarbeidet offentlig søkerliste.<br />\nGyldig politiattest må framlegges i tilsettinger der det er påkrevd.</p>\n",
+		  "name": "Trondheim kommune",
+		  "orgnr": "",
+		  "description": "",
 		  "homepage": null
 		},
 		"engagementtype": "Fast",
