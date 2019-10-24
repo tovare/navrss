@@ -4,13 +4,13 @@
 
 A google cloud function to convert NAVs API to RSS 2.0 (https://github.com/navikt/pam-public-feed)
 
-Intended to be suitable for tools like Feedly, IFTTT and Facebook pages.
+Intended to be suitable for tools like Feedly, IFTTT, Flow.
 
 
 ## Link to the feed 
 https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed
 
-(Feel free to just use this)
+(Example live feed)
 
 ## Supported filters
 

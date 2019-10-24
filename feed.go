@@ -214,7 +214,7 @@ func RSSFeed(w http.ResponseWriter, r *http.Request) {
 		Version: "2.0",
 		Content: "http://purl.org/rss/1.0/modules/content/",
 		Channel: Channel{
-			Title:         "Arbeidsplassen",
+			Title:         "Based on data from Arbeidsplassen",
 			Link:          "https://arbeidsplassen.no",
 			Language:      "no",
 			LastBuildDate: time.Now().Format(time.RFC1123Z),
