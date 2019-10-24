@@ -26,8 +26,6 @@ https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed?size=100&municipal
 
 See the quickstart documentation https://cloud.google.com/functions/
 
-If you don´t want to configure your PC with development tools, you can copy and paste the contents of the feed.go source file.
-
 ### With development token:
 gcloud functions deploy RSSFeed --memory=128 --runtime go111 --trigger-http
 
