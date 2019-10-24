@@ -55,38 +55,41 @@ type Cdata struct {
 	Value string `xml:",cdata"`
 }
 
-// Jobs represents a list of job adverts.
+// Job represents a job advert.
+type Job struct {
+	UUID          string    `json:"uuid" firestore:"name,omitempty"`
+	Published     time.Time `json:"published" firestore:"published,omitempty"`
+	Expires       time.Time `json:"expires" firestore:"expires,omitempty"`
+	WorkLocations []struct {
+		Country    string `json:"country" firestore:"country,omitempty"`
+		City       string `json:"city" firestore:"city,omitempty"`
+		PostalCode string `json:"postalCode" firestore:"postalcode,omitempty"`
+		County     string `json:"county" firestore:"country,omitempty"`
+		Municipal  string `json:"municipal" firestore:"municipal,omitempty"`
+	} `json:"workLocations"`
+	Title          string   `json:"title" firestore:"title,omitempty"`
+	Description    string   `json:"description" firestore:"description,omitempty"` // html5
+	Source         string   `json:"source" firestore:"source,omitempty"`
+	ApplicationDue string   `json:"applicationDue" firestore:"applicationdue,omitempty"`
+	Occupations    []string `json:"occupations" firestore:"occupations,omitempty"`
+	Link           string   `json:"link" firestore:"link,omitempty"`
+	Employer       struct {
+		Name        string `json:"name" firestore:"name,omitempty"`
+		Orgnr       string `json:"orgnr" firestore:"orgnr,omitempty"`
+		Description string `json:"description" firestore:"description,omitempty"`
+	} `json:"employer" firestore:"employer,omitempty"`
+}
+
+// Jobs is a series of jobs.
 type Jobs struct {
-	Content []struct {
-		UUID          string    `json:"uuid"`
-		Published     time.Time `json:"published"`
-		Expires       time.Time `json:"expires"`
-		WorkLocations []struct {
-			Country    string `json:"country"`
-			City       string `json:"city"`
-			PostalCode string `json:"postalCode"`
-			County     string `json:"county"`
-			Municipal  string `json:"municipal"`
-		} `json:"workLocations"`
-		Title          string   `json:"title"`
-		Description    string   `json:"description"` // html5
-		Source         string   `json:"source"`
-		ApplicationDue string   `json:"applicationDue"`
-		Occupations    []string `json:"occupations"`
-		Link           string   `json:"link"`
-		Employer       struct {
-			Name        string `json:"name"`
-			Orgnr       string `json:"orgnr"`
-			Description string `json:"description"`
-		} `json:"employer"`
-	} `json:"content"`
-	TotalElements int    `json:"totalElements"`
-	PageNumber    int    `json:"pageNumber"`
-	PageSize      int    `json:"pageSize"`
-	TotalPages    int    `json:"totalPages"`
-	First         bool   `json:"first"`
-	Last          bool   `json:"last"`
-	Sort          string `json:"sort"`
+	Content       []Job  `json:"content" firestore:"content,omitempty"`
+	TotalElements int    `json:"totalElements" totalElements:"name,omitempty"`
+	PageNumber    int    `json:"pageNumber" pageNumbere:"name,omitempty"`
+	PageSize      int    `json:"pageSize" pageSize:"name,omitempty"`
+	TotalPages    int    `json:"totalPages" totalPages:"name,omitempty"`
+	First         bool   `json:"first" firestore:"first,omitempty"`
+	Last          bool   `json:"last" firestore:"last,omitempty"`
+	Sort          string `json:"sort" firestore:"sort,omitempty"`
 }
 
 //***********************************************
@@ -157,6 +160,7 @@ func RSSFeed(w http.ResponseWriter, r *http.Request) {
 	municipal := r.FormValue("municipal")
 	county := r.FormValue("county")
 	size := r.FormValue("size")
+	view := r.FormValue("view")
 
 	// query Ads and populate jobs.
 	var jobs Jobs
@@ -208,7 +212,23 @@ func RSSFeed(w http.ResponseWriter, r *http.Request) {
 			jobs = Jobs{}
 		}
 	}
+	switch view {
 
+	case "html-headlines":
+		w.Header().Set("Content-Type", "text/html")
+		w.Header().Set("User-Agent", "TovAreRSS/1.0 <mail@tovare.com>")
+		fmt.Fprint(w, jobs.renderHtmHeadlines())
+
+	default:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Content-Type", "application/rss+xml")
+		w.Header().Set("User-Agent", "TovAreRSS/1.0 <mail@tovare.com>")
+		fmt.Fprint(w, jobs.renderRSS())
+	}
+}
+
+// Default rendering RSS
+func (jobs Jobs) renderRSS() string {
 	// Prepare result
 	res := RSS{
 		Version: "2.0",
@@ -221,6 +241,7 @@ func RSSFeed(w http.ResponseWriter, r *http.Request) {
 			Items:         make([]Item, 0),
 		},
 	}
+
 	for _, v := range jobs.Content {
 		i := Item{
 			Title:   v.Title,
@@ -230,6 +251,7 @@ func RSSFeed(w http.ResponseWriter, r *http.Request) {
 			//Author:  nil,
 			Content: Cdata{v.Description},
 		}
+
 		res.Channel.Items = append(res.Channel.Items, i)
 	}
 
@@ -237,8 +259,33 @@ func RSSFeed(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("error: %v\n", err)
 	}
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/rss+xml")
-	w.Header().Set("User-Agent", "TovAreRSS/1.0 <mail@tovare.com>")
-	fmt.Fprint(w, xml.Header+string(output))
+	return xml.Header + string(output)
+}
+
+// HTML headlines for last positions.
+func (jobs Jobs) renderHtmHeadlines() string {
+
+	t := `
+<!DOCTYPE html>
+<html>
+ <meta charset="UTF-8">
+ <head>Siste stillinger</head>
+ <body>
+   <table>
+	 <thead>
+	    <tr><th>stilling</th></tr>
+	 </thead>
+	 <tbody>
+	   {{range .Items}}
+		  <tr>
+		  </tr>
+	   {{end}}
+	 </tbody>
+   </table>  
+ </body>
+</html>
+`
+	//tem, _ := template.New("headlines").Parse(t)
+
+	return t
 }
