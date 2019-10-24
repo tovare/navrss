@@ -39,4 +39,7 @@ Create a filee for enviromeent configuration .env.yaml contains:
 ARBEIDAPI: "<insert key>"
 ```
 
+# Harvesting to firebase
 
+harvestproc.go contains a pub/sub functions which stores into firebase.
+The model defined in feed.go is mapped to both firebase and json results.
