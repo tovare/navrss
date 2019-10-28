@@ -8,7 +8,8 @@ Intended to be suitable for tools like Feedly, IFTTT, Flow.
 
 
 ## Link to the feed 
-https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed
+
+https://tovare.com/jobb/rss
 
 (Example live feed)
 
@@ -20,7 +21,7 @@ https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed
 * municipal
 * county
 
-https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed?size=100&municipal=BERGEN
+https://tovare.com/jobb/rss?size=100&municipal=BERGEN
 
 ## Configure and deploy
 

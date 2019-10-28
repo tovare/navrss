@@ -27,6 +27,7 @@ func UpdateAndStore(ctx context.Context, m PubSubMessage) error {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer client.Close()
 
 	var jobs Jobs
 	{
