@@ -85,6 +85,7 @@ func RSSFeed(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/rss+xml")
 		w.Header().Set("User-Agent", "TovAreRSS/1.0 <mail@tovare.com>")
+		w.Header().Set("Cache-Control", "public, max-age=300, s-maxage=1800")
 		fmt.Fprint(w, jobs.renderRSS())
 	}
 }
