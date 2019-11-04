@@ -7,3 +7,4 @@ NAV Stillinger-3100c6cb4edc.json
 web/node_modules
 web/.cache
 dist/*
+web/site/wrangler.toml

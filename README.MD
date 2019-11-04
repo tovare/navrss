@@ -46,8 +46,12 @@ The model defined in feed.go is mapped to both firebase and json results.
 
 # Webcomponent
 
+Demo [https://tovare.com/jobb/](https://tovare.com/jobb/)
+
     <script src="sisteStillinger.js" async></script>
 
     <siste-stillinger></siste-stillinger>
+
+
 
 ![Image of component](webcomp1.png)

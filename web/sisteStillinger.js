@@ -63,7 +63,7 @@ th, td {
             </tbody>
         `)
           .catch(() => "ERROR"), html`
-          <p><h1 style="text-align: center;">Henter stillinger...</h1></p>`,)
+          <p><h1 style="text-align: center;">Henter stillinger...</h1></p>`,1000)
       }
       </table>
       <p style="text-align: center;">Kilde: Ledige stillinger fra <a href="https://arbeidsplassen.no">arbeidsplassen</a></p>

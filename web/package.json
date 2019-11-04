@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "parcel  -p 8080  watch index.html index.js sisteStillinger.js",
-        "build": "parcel build --out-dir public index.html sisteStillinger.js --no-source-maps"
+        "build": "parcel build --public-url './jobb' --out-dir public/jobb index.html  sisteStillinger.js --no-source-maps "
     },
     "keywords": [],
     "author": "",
