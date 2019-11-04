@@ -23,6 +23,15 @@ const SisteStillinger = {
         render: ({ s, h }) =>html `
         <style>
 
+
+:host {
+    display: block;
+}
+:host([hidden]) {
+    display: none;
+    box-sizing: border-box;
+}
+
 table {
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -32,7 +41,8 @@ th, td {
   text-align: left;
   border-bottom: 1px solid #ddd;
 } 
-tr:nth-child(even) {background-color: #f2f2f2;}
+
+
 
 </style>
 
@@ -52,10 +62,11 @@ tr:nth-child(even) {background-color: #f2f2f2;}
         </tr>`)}        
             </tbody>
         `)
-          .catch(() => "ERROR"), html`Henter stillinger...`,)
+          .catch(() => "ERROR"), html`
+          <p><h1 style="text-align: center;">Henter stillinger...</h1></p>`,)
       }
       </table>
-      <p>Kilde: Ledige stillinger fra <a href="https://arbeidsplassen.no">arbeidsplassen</a></p>
+      <p style="text-align: center;">Kilde: Ledige stillinger fra <a href="https://arbeidsplassen.no">arbeidsplassen</a></p>
     `
 }
 

@@ -2150,7 +2150,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var _hybrids = require("hybrids");
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["Henter stillinger..."]);
+  var data = _taggedTemplateLiteral(["\n          <p><h1 style=\"text-align: center;\">Henter stillinger...</h1></p>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -2180,7 +2180,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n        <style>\n\ntable {\n    font-family: Arial, Helvetica, sans-serif;\n}\n\nth, td {\n  padding: 15px;\n  text-align: left;\n  border-bottom: 1px solid #ddd;\n} \ntr:nth-child(even) {background-color: #f2f2f2;}\n\n</style>\n\n\n    ", "\n      </table>\n      <p>Kilde: Ledige stillinger fra <a href=\"https://arbeidsplassen.no\">arbeidsplassen</a></p>\n    "]);
+  var data = _taggedTemplateLiteral(["\n        <style>\n\n\n:host {\n    display: block;\n}\n:host([hidden]) {\n    display: none;\n    box-sizing: border-box;\n}\n\ntable {\n    font-family: Arial, Helvetica, sans-serif;\n}\n\nth, td {\n  padding: 15px;\n  text-align: left;\n  border-bottom: 1px solid #ddd;\n} \n\n\n\n</style>\n\n\n    ", "\n      </table>\n      <p style=\"text-align: center;\">Kilde: Ledige stillinger fra <a href=\"https://arbeidsplassen.no\">arbeidsplassen</a></p>\n    "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -2257,7 +2257,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58050" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59804" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

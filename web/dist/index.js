@@ -142,163 +142,137 @@ function _objectSpread(target) {
     }
 
     ownKeys.forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    });
+,"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
   }
 
-  return target;
-}
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
 
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-var camelToDashMap = new Map();
-
-function camelToDash(str) {
-  var result = camelToDashMap.get(str);
-
-  if (result === undefined) {
-    result = str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-    camelToDashMap.set(str, result);
-  }
-
-  return result;
-}
-
-function pascalToDash(str) {
-  return camelToDash(str.replace(/((?!([A-Z]{2}|^))[A-Z])/g, '-$1'));
-}
-
-function dispatch(host, eventType) {
-  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  return host.dispatchEvent(new CustomEvent(eventType, _objectSpread({
-    bubbles: false
-  }, options)));
-}
-
-function shadyCSS(fn, fallback) {
-  var shady = window.ShadyCSS;
-  /* istanbul ignore next */
-
-  if (shady && !shady.nativeShadow) {
-    return fn(shady);
-  }
-
-  return fallback;
-}
-
-function stringifyElement(element) {
-  var tagName = String(element.tagName).toLowerCase();
-  return "<".concat(tagName, ">");
-}
-
-var IS_IE = 'ActiveXObject' in window;
-exports.IS_IE = IS_IE;
-var deferred = Promise.resolve();
-exports.deferred = deferred;
-},{}],"node_modules/hybrids/esm/property.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = property;
-
-var _utils = require("./utils");
-
-function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-var defaultTransform = function defaultTransform(v) {
-  return v;
-};
-
-var objectTransform = function objectTransform(value) {
-  if (_typeof(value) !== 'object') {
-    throw TypeError("Assigned value must be an object: ".concat(typeof v === "undefined" ? "undefined" : _typeof(v)));
-  }
-
-  return value && Object.freeze(value);
-};
-
-function property(value, connect) {
-  var type = _typeof(value);
-
-  var transform = defaultTransform;
-
-  switch (type) {
-    case 'string':
-      transform = String;
-      break;
-
-    case 'number':
-      transform = Number;
-      break;
-
-    case 'boolean':
-      transform = Boolean;
-      break;
-
-    case 'function':
-      transform = value;
-      value = transform();
-      break;
-
-    case 'object':
-      if (value) Object.freeze(value);
-      transform = objectTransform;
-      break;
-
-    default:
-      break;
-  }
-
-  return {
-    get: function get(host) {
-      var val = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : value;
-      return val;
-    },
-    set: function set(host, val, oldValue) {
-      return transform(val, oldValue);
-    },
-    connect: type !== 'object' && type !== 'undefined' ? function (host, key, invalidate) {
-      if (host[key] === value) {
-        var attrName = (0, _utils.camelToDash)(key);
-
-        if (host.hasAttribute(attrName)) {
-          var attrValue = host.getAttribute(attrName);
-          host[key] = attrValue !== '' ? attrValue : true;
-        }
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
       }
+    }
 
-      return connect && connect(host, key, invalidate);
-    } : connect
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var global = arguments[3];
+var OVERLAY_ID = '__parcel__error__overlay__';
+var OldModule = module.bundle.Module;
+
+function Module(moduleName) {
+  OldModule.call(this, moduleName);
+  this.hot = {
+    data: module.bundle.hotData,
+    _acceptCallbacks: [],
+    _disposeCallbacks: [],
+    accept: function (fn) {
+      this._acceptCallbacks.push(fn || function () {});
+    },
+    dispose: function (fn) {
+      this._disposeCallbacks.push(fn);
+    }
+  };
+  module.bundle.hotData = null;
+}
+
+module.bundle.Module = Module;
+var checkedAssets, assetsToAccept;
+var parent = module.bundle.parent;
+
+if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
+  var hostname = "" || location.hostname;
+  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59804" + '/');
+
+  ws.onmessage = function (event) {
+    checkedAssets = {};
+    assetsToAccept = [];
+    var data = JSON.parse(event.data);
+
+    if (data.type === 'update') {
+      var handled = false;
+      data.assets.forEach(function (asset) {
+        if (!asset.isNew) {
+          var didAccept = hmrAcceptCheck(global.parcelRequire, asset.id);
+
+          if (didAccept) {
+            handled = true;
+          }
+        }
+      }); // Enable HMR for CSS by default.
+
+      handled = handled || data.assets.every(function (asset) {
+        return asset.type === 'css' && asset.generated.js;
+      });
+
+      if (handled) {
+        console.clear();
+        data.assets.forEach(function (asset) {
+          hmrApply(global.parcelRequire, asset);
+        });
+        assetsToAccept.forEach(function (v) {
+          hmrAcceptRun(v[0], v[1]);
+        });
+      } else if (location.reload) {
+        // `location` global exists in a web worker context but lacks `.reload()` function.
+        location.reload();
+      }
+    }
+
+    if (data.type === 'reload') {
+      ws.close();
+
+      ws.onclose = function () {
+        location.reload();
+      };
+    }
+
+    if (data.type === 'error-resolved') {
+      console.log('[parcel] ✨ Error resolved');
+      removeErrorOverlay();
+    }
+
+    if (data.type === 'error') {
+      console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
+      removeErrorOverlay();
+      var overlay = createErrorOverlay(data);
+      document.body.appendChild(overlay);
+    }
   };
 }
-},{"./utils":"node_modules/hybrids/esm/utils.js"}],"node_modules/hybrids/esm/render.js":[function(require,module,exports) {
+
+function removeErrorOverlay() {
+  var overlay = document.getElementById(OVERLAY_ID);
+
+  if (overlay) {
+    overlay.remove();
+  }
+}
+
+function create,"node_modules/hybrids/esm/render.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -426,10 +400,8 @@ function execute() {
         queue.delete(target);
       } catch (e) {
         queue.delete(target);
-        throw e;
-      }
-    });
-  } catch (e) {
+        th
+//# sourceMappingURL=/index.js.map) {
     if (queue.size) execute();
     throw e;
   }
@@ -2150,7 +2122,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var _hybrids = require("hybrids");
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["Henter stillinger..."]);
+  var data = _taggedTemplateLiteral(["\n          <p><h1 style=\"text-align: center;\">Henter stillinger...</h1></p>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -2180,7 +2152,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n        <style>\n\ntable {\n    font-family: Arial, Helvetica, sans-serif;\n}\n\nth, td {\n  padding: 15px;\n  text-align: left;\n  border-bottom: 1px solid #ddd;\n} \ntr:nth-child(even) {background-color: #f2f2f2;}\n\n</style>\n\n\n    ", "\n      </table>\n      <p>Kilde: Ledige stillinger fra <a href=\"https://arbeidsplassen.no\">arbeidsplassen</a></p>\n    "]);
+  var data = _taggedTemplateLiteral(["\n        <style>\n\n\n:host {\n    display: block;\n}\n:host([hidden]) {\n    display: none;\n    box-sizing: border-box;\n}\n\ntable {\n    font-family: Arial, Helvetica, sans-serif;\n}\n\nth, td {\n  padding: 15px;\n  text-align: left;\n  border-bottom: 1px solid #ddd;\n} \n\n\n\n</style>\n\n\n    ", "\n      </table>\n      <p style=\"text-align: center;\">Kilde: Ledige stillinger fra <a href=\"https://arbeidsplassen.no\">arbeidsplassen</a></p>\n    "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -2265,7 +2237,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58050" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59804" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
