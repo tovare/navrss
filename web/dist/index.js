@@ -2193,7 +2193,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 // XXX: Får ikke kjørt CORS preflight mot arbeidsplassen bruker proxy.
 function hentStillinger() {
-  var url = "https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed?view=json";
+  var url = "https://tovare.com/jobb/rss?view=json";
   var req = {
     method: 'GET',
     mode: 'cors',
@@ -2265,7 +2265,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54668" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58050" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

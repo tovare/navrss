@@ -6,3 +6,4 @@ NAV Stillinger-3100c6cb4edc.json
 .DS_Store
 web/node_modules
 web/.cache
+dist/*

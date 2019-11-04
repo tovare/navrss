@@ -3,7 +3,7 @@ import { define, html, render } from 'hybrids';
 
 // XXX: Får ikke kjørt CORS preflight mot arbeidsplassen bruker proxy.
 function hentStillinger()  {
-    const url = "https://us-central1-nav-stillinger.cloudfunctions.net/RSSFeed?view=json"
+    const url = "https://tovare.com/jobb/rss?view=json"
     const req = {
         method: 'GET',
         mode: 'cors',
