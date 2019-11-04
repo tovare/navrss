@@ -5,12 +5,15 @@
     "main": "index.js",
     "scripts": {
         "test": "parcel  -p 8080  watch index.html index.js sisteStillinger.js",
-        "build": "parcel build index.html sisteStillinger.js"
+        "build": "parcel build --out-dir public index.html sisteStillinger.js --no-source-maps"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
         "hybrids": "^4.0.2"
+    },
+    "devDependencies": {
+        "cssnano": "^4.1.10"
     }
 }
