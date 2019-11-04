@@ -2,6 +2,7 @@ import { define, html, render } from 'hybrids';
 
 
 // XXX: Får ikke kjørt CORS preflight mot arbeidsplassen bruker proxy.
+// Kan ikke bruke await.
 function hentStillinger()  {
     const url = "https://tovare.com/jobb/rss?view=json"
     const req = {
@@ -21,9 +22,7 @@ const SisteStillinger = {
         s: () => hentStillinger(),
         h: "hello",
         render: ({ s, h }) =>html `
-        <style>
-
-
+<style>
 :host {
     display: block;
 }
@@ -34,6 +33,7 @@ const SisteStillinger = {
 
 table {
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
 }
 
 th, td {
@@ -41,22 +41,17 @@ th, td {
   text-align: left;
   border-bottom: 1px solid #ddd;
 } 
-
-
-
 </style>
-
-
     ${html.resolve(
         s.then(({totalElements, content}) => html`
         <table>
             <thead>
-                <th>Jobb</th><th>Arbeidsgiver</th><th>Sted</th>
+                <th>Jobb</th><th>Arbeidsgiver</th><th>Kommune</th>
             </thead>
             <tbody>
-    ${content.map(({ title,employer,workLocations}) => html`
+    ${content.map(({ title,link,employer,workLocations}) => html`
         <tr>
-            <td>${title}</td>
+            <td><a href="${link}">${title}</a></td>
             <td>${employer.name}</td>
             <td>${workLocations[0].municipal}</td>
         </tr>`)}        
@@ -69,8 +64,4 @@ th, td {
       <p style="text-align: center;">Kilde: Ledige stillinger fra <a href="https://arbeidsplassen.no">arbeidsplassen</a></p>
     `
 }
-
-
-
-
 define('siste-stillinger', SisteStillinger)

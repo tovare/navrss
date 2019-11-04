@@ -2160,7 +2160,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n        <tr>\n            <td>", "</td>\n            <td>", "</td>\n            <td>", "</td>\n        </tr>"]);
+  var data = _taggedTemplateLiteral(["\n        <tr>\n            <td><a href=\"", "\">", "</a></td>\n            <td>", "</td>\n            <td>", "</td>\n        </tr>"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -2170,7 +2170,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n        <table>\n            <thead>\n                <th>Jobb</th><th>Arbeidsgiver</th><th>Sted</th>\n            </thead>\n            <tbody>\n    ", "        \n            </tbody>\n        "]);
+  var data = _taggedTemplateLiteral(["\n        <table>\n            <thead>\n                <th>Jobb</th><th>Arbeidsgiver</th><th>Kommune</th>\n            </thead>\n            <tbody>\n    ", "        \n            </tbody>\n        "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -2180,7 +2180,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n        <style>\n\n\n:host {\n    display: block;\n}\n:host([hidden]) {\n    display: none;\n    box-sizing: border-box;\n}\n\ntable {\n    font-family: Arial, Helvetica, sans-serif;\n}\n\nth, td {\n  padding: 15px;\n  text-align: left;\n  border-bottom: 1px solid #ddd;\n} \n\n\n\n</style>\n\n\n    ", "\n      </table>\n      <p style=\"text-align: center;\">Kilde: Ledige stillinger fra <a href=\"https://arbeidsplassen.no\">arbeidsplassen</a></p>\n    "]);
+  var data = _taggedTemplateLiteral(["\n<style>\n:host {\n    display: block;\n}\n:host([hidden]) {\n    display: none;\n    box-sizing: border-box;\n}\n\ntable {\n    font-family: Arial, Helvetica, sans-serif;\n    font-size: 14px;\n}\n\nth, td {\n  padding: 15px;\n  text-align: left;\n  border-bottom: 1px solid #ddd;\n} \n</style>\n    ", "\n      </table>\n      <p style=\"text-align: center;\">Kilde: Ledige stillinger fra <a href=\"https://arbeidsplassen.no\">arbeidsplassen</a></p>\n    "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -2192,6 +2192,7 @@ function _templateObject() {
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 // XXX: Får ikke kjørt CORS preflight mot arbeidsplassen bruker proxy.
+// Kan ikke bruke await.
 function hentStillinger() {
   var url = "https://tovare.com/jobb/rss?view=json";
   var req = {
@@ -2219,9 +2220,10 @@ var SisteStillinger = {
           content = _ref2.content;
       return (0, _hybrids.html)(_templateObject2(), content.map(function (_ref3) {
         var title = _ref3.title,
+            link = _ref3.link,
             employer = _ref3.employer,
             workLocations = _ref3.workLocations;
-        return (0, _hybrids.html)(_templateObject3(), title, employer.name, workLocations[0].municipal);
+        return (0, _hybrids.html)(_templateObject3(), link, title, employer.name, workLocations[0].municipal);
       }));
     }).catch(function () {
       return "ERROR";
@@ -2257,7 +2259,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61281" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56204" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
