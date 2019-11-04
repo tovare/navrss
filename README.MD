@@ -42,3 +42,12 @@ ARBEIDAPI: "<insert key>"
 
 harvestproc.go contains a pub/sub functions which stores into firebase.
 The model defined in feed.go is mapped to both firebase and json results.
+
+
+# Webcomponent
+
+    <script src="sisteStillinger.js" async></script>
+
+    <siste-stillinger></siste-stillinger>
+
+![Image of component](webcomp1.png)

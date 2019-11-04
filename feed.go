@@ -76,7 +76,14 @@ func RSSFeed(w http.ResponseWriter, r *http.Request) {
 	}
 	switch view {
 
+	case "json":
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("User-Agent", "TovAreRSS/1.0 <mail@tovare.com>")
+		fmt.Fprint(w, jobs.renderJSON())
+
 	case "html-headlines":
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "text/html")
 		w.Header().Set("User-Agent", "TovAreRSS/1.0 <mail@tovare.com>")
 		fmt.Fprint(w, jobs.renderHtmHeadlines())
@@ -123,6 +130,14 @@ func (jobs Jobs) renderRSS() string {
 		log.Printf("error: %v\n", err)
 	}
 	return xml.Header + string(output)
+}
+
+func (jobs Jobs) renderJSON() string {
+	s, err := json.MarshalIndent(jobs, "", "  ")
+	if err != nil {
+		log.Printf("error: %v\n", err)
+	}
+	return string(s)
 }
 
 // HTML headlines for last positions.
