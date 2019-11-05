@@ -25,6 +25,7 @@ const SisteStillinger = {
 <style>
 :host {
     display: block;
+    box-sizing: border-box;
 }
 :host([hidden]) {
     display: none;

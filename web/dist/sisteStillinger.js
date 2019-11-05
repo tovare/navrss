@@ -2180,7 +2180,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n<style>\n:host {\n    display: block;\n}\n:host([hidden]) {\n    display: none;\n    box-sizing: border-box;\n}\n\ntable {\n    font-family: Arial, Helvetica, sans-serif;\n    font-size: 14px;\n}\n\nth, td {\n  padding: 15px;\n  text-align: left;\n  border-bottom: 1px solid #ddd;\n} \n</style>\n    ", "\n      </table>\n      <p style=\"text-align: center;\">Kilde: Ledige stillinger fra <a href=\"https://arbeidsplassen.no\">arbeidsplassen</a></p>\n    "]);
+  var data = _taggedTemplateLiteral(["\n<style>\n:host {\n    display: block;\n    box-sizing: border-box;\n}\n:host([hidden]) {\n    display: none;\n    box-sizing: border-box;\n}\n\ntable {\n    font-family: Arial, Helvetica, sans-serif;\n    font-size: 14px;\n}\n\nth, td {\n  padding: 15px;\n  text-align: left;\n  border-bottom: 1px solid #ddd;\n} \n</style>\n    ", "\n      </table>\n      <p style=\"text-align: center;\">Kilde: Ledige stillinger fra <a href=\"https://arbeidsplassen.no\">arbeidsplassen</a></p>\n    "]);
 
   _templateObject = function _templateObject() {
     return data;
