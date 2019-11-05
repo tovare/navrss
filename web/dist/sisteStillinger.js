@@ -2191,10 +2191,9 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-// XXX: Får ikke kjørt CORS preflight mot arbeidsplassen bruker proxy.
-// Kan ikke bruke await.
-function hentStillinger() {
-  var url = "https://tovare.com/jobb/rss?view=json";
+// Får ikke kjørt CORS preflight mot arbeidsplassen bruker proxy.
+function hentStillinger(antall) {
+  var url = "https://tovare.com/jobb/rss?view=json&size=" + antall;
   var req = {
     method: 'GET',
     mode: 'cors',
@@ -2206,23 +2205,26 @@ function hentStillinger() {
   });
 }
 
-;
+; // Component
+
 var SisteStillinger = {
-  s: function s() {
-    return hentStillinger();
+  antall: 5,
+  s: function s(_ref) {
+    var antall = _ref.antall;
+    return hentStillinger(antall);
   },
   h: "hello",
-  render: function render(_ref) {
-    var s = _ref.s,
-        h = _ref.h;
-    return (0, _hybrids.html)(_templateObject(), _hybrids.html.resolve(s.then(function (_ref2) {
-      var totalElements = _ref2.totalElements,
-          content = _ref2.content;
-      return (0, _hybrids.html)(_templateObject2(), content.map(function (_ref3) {
-        var title = _ref3.title,
-            link = _ref3.link,
-            employer = _ref3.employer,
-            workLocations = _ref3.workLocations;
+  render: function render(_ref2) {
+    var s = _ref2.s,
+        h = _ref2.h;
+    return (0, _hybrids.html)(_templateObject(), _hybrids.html.resolve(s.then(function (_ref3) {
+      var totalElements = _ref3.totalElements,
+          content = _ref3.content;
+      return (0, _hybrids.html)(_templateObject2(), content.map(function (_ref4) {
+        var title = _ref4.title,
+            link = _ref4.link,
+            employer = _ref4.employer,
+            workLocations = _ref4.workLocations;
         return (0, _hybrids.html)(_templateObject3(), link, title, employer.name, workLocations[0].municipal);
       }));
     }).catch(function () {
@@ -2259,7 +2261,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64020" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51289" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

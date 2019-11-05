@@ -1,10 +1,9 @@
-import { define, html, render } from 'hybrids';
+import { define, html, render,property } from 'hybrids';
 
 
-// XXX: Får ikke kjørt CORS preflight mot arbeidsplassen bruker proxy.
-// Kan ikke bruke await.
-function hentStillinger()  {
-    const url = "https://tovare.com/jobb/rss?view=json"
+// Får ikke kjørt CORS preflight mot arbeidsplassen bruker proxy.
+function hentStillinger(antall)  {
+    const url = "https://tovare.com/jobb/rss?view=json&size="+antall
     const req = {
         method: 'GET',
         mode: 'cors',
@@ -17,9 +16,10 @@ function hentStillinger()  {
         })
 };
 
-
+// Component
 const SisteStillinger = {
-        s: () => hentStillinger(),
+        antall: 5,
+        s: ({ antall }) => hentStillinger(antall),
         h: "hello",
         render: ({ s, h }) =>html `
 <style>

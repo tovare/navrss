@@ -52,6 +52,9 @@ Demo [https://tovare.com/jobb/](https://tovare.com/jobb/)
 
     <siste-stillinger></siste-stillinger>
 
+    <!-- vis 10 stillinger -->
+    <siste-stillinger antall="10"></siste-stillinger>
+
 
 
 ![Image of component](webcomp1.png)
