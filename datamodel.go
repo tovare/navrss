@@ -57,12 +57,21 @@ type Job struct {
 		County     string `json:"county" firestore:"country,omitempty"`
 		Municipal  string `json:"municipal" firestore:"municipal,omitempty"`
 	} `json:"workLocations"`
-	Title          string   `json:"title" firestore:"title,omitempty"`
-	Description    string   `json:"description" firestore:"description,omitempty"` // html5
-	Source         string   `json:"source" firestore:"source,omitempty"`
-	ApplicationDue string   `json:"applicationDue" firestore:"applicationdue,omitempty"`
-	Occupations    []string `json:"occupations" firestore:"occupations,omitempty"`
-	Link           string   `json:"link" firestore:"link,omitempty"`
+	Title                string   `json:"title" firestore:"title,omitempty"`
+	Description          string   `json:"description" firestore:"description,omitempty"` // html5
+	Source               string   `json:"source" firestore:"source,omitempty"`
+	ApplicationDue       string   `json:"applicationDue" firestore:"applicationdue,omitempty"`
+	Occupations          []string `json:"occupations" firestore:"occupations,omitempty"`
+	OccupationCategories []struct {
+		Level1 string `json:"level1" firestore:"level1"`
+		Level2 string `json:"level2" firestore:"level2"`
+	} `json:"occupationCategories" firestore:"occupationcategories,omitempty"`
+	Link           string `json:"link" firestore:"link,omitempty"`
+	Engagementtype string `json:"engagementtype" firestore:"engagementtype,omitempty"`
+	Extent         string `json:"extent" firestore:"extent,omitempty"`
+	Starttime      string `json:"starttime" firestore:"starttime,omitempty"`
+	Positioncount  string `json:"positioncount" firestore:"positioncount,omitempty"`
+	Sector         string `json:"sector" firestore:"sector,omitempty"`
 	Employer       struct {
 		Name        string `json:"name" firestore:"name,omitempty"`
 		Orgnr       string `json:"orgnr" firestore:"orgnr,omitempty"`
