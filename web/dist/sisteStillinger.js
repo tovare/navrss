@@ -130,20 +130,35 @@ exports.shadyCSS = shadyCSS;
 exports.stringifyElement = stringifyElement;
 exports.deferred = exports.IS_IE = void 0;
 
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
 
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
     }
-
-    ownKeys.forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    });
   }
 
   return target;
@@ -238,7 +253,7 @@ var defaultTransform = function defaultTransform(v) {
 
 var objectTransform = function objectTransform(value) {
   if (_typeof(value) !== 'object') {
-    throw TypeError("Assigned value must be an object: ".concat(typeof v === "undefined" ? "undefined" : _typeof(v)));
+    throw TypeError("Assigned value must be an object: ".concat(_typeof(value)));
   }
 
   return value && Object.freeze(value);
@@ -290,7 +305,7 @@ function property(value, connect) {
 
         if (host.hasAttribute(attrName)) {
           var attrValue = host.getAttribute(attrName);
-          host[key] = attrValue !== '' ? attrValue : true;
+          host[key] = attrValue === '' && transform === Boolean ? true : attrValue;
         }
       }
 
@@ -306,20 +321,35 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = render;
 
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
 
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
     }
-
-    ownKeys.forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    });
   }
 
   return target;
@@ -354,11 +384,11 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
-function render(_get) {
+function render(fn) {
   var customOptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  if (typeof _get !== 'function') {
-    throw TypeError("The first argument must be a function: ".concat(_typeof(_get)));
+  if (typeof fn !== 'function') {
+    throw TypeError("The first argument must be a function: ".concat(_typeof(fn)));
   }
 
   var options = _objectSpread({
@@ -375,19 +405,21 @@ function render(_get) {
 
   return {
     get: function get(host) {
-      var fn = _get(host);
+      var update = fn(host);
+      var target = host;
+
+      if (options.shadowRoot) {
+        if (!host.shadowRoot) host.attachShadow(shadowRootInit);
+        target = host.shadowRoot;
+      }
 
       return function flush() {
-        fn(host, options.shadowRoot ? host.shadowRoot : host);
+        update(host, target);
+        return target;
       };
     },
-    connect: function connect(host) {
-      if (options.shadowRoot && !host.shadowRoot) {
-        host.attachShadow(shadowRootInit);
-      }
-    },
-    observe: function observe(host, fn) {
-      fn();
+    observe: function observe(host, flush) {
+      flush();
     }
   };
 }
@@ -399,30 +431,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.dispatch = dispatch;
 exports.subscribe = subscribe;
-var targets = new WeakMap();
-
-function getListeners(target) {
-  var listeners = targets.get(target);
-
-  if (!listeners) {
-    listeners = new Set();
-    targets.set(target, listeners);
-  }
-
-  return listeners;
-}
-
+var callbacks = new WeakMap();
 var queue = new Set();
-
-var run = function run(fn) {
-  return fn();
-};
 
 function execute() {
   try {
     queue.forEach(function (target) {
       try {
-        getListeners(target).forEach(run);
+        callbacks.get(target)();
         queue.delete(target);
       } catch (e) {
         queue.delete(target);
@@ -444,11 +460,11 @@ function dispatch(target) {
 }
 
 function subscribe(target, cb) {
-  var listeners = getListeners(target);
-  listeners.add(cb);
+  callbacks.set(target, cb);
   dispatch(target);
-  return function () {
-    return listeners.delete(cb);
+  return function unsubscribe() {
+    queue.delete(target);
+    callbacks.delete(target);
   };
 }
 },{}],"node_modules/hybrids/esm/cache.js":[function(require,module,exports) {
@@ -490,7 +506,7 @@ function getEntry(target, key) {
       value: undefined,
       contexts: undefined,
       deps: undefined,
-      state: 1,
+      state: 0,
       checksum: 0,
       observed: false
     };
@@ -505,8 +521,6 @@ function calculateChecksum(entry) {
 
   if (entry.deps) {
     entry.deps.forEach(function (depEntry) {
-      // eslint-disable-next-line no-unused-expressions
-      depEntry.target[depEntry.key];
       checksum += depEntry.state;
     });
   }
@@ -519,42 +533,39 @@ function dispatchDeep(entry) {
   if (entry.contexts) entry.contexts.forEach(dispatchDeep);
 }
 
-var context = null;
+var contextStack = new Set();
 
 function get(target, key, getter) {
   var entry = getEntry(target, key);
 
-  if (context === entry) {
-    context = null;
-    throw Error("Circular '".concat(key, "' get invocation in '").concat((0, _utils.stringifyElement)(target), "'"));
+  if (contextStack.size && contextStack.has(entry)) {
+    throw Error("Circular get invocation of the '".concat(key, "' property in '").concat((0, _utils.stringifyElement)(target), "'"));
   }
 
-  if (context) {
+  contextStack.forEach(function (context) {
     context.deps = context.deps || new Set();
     context.deps.add(entry);
-  }
 
-  if (context && (context.observed || context.contexts && context.contexts.size)) {
-    entry.contexts = entry.contexts || new Set();
-    entry.contexts.add(context);
-  }
-
-  var parentContext = context;
-  context = entry;
+    if (context.observed) {
+      entry.contexts = entry.contexts || new Set();
+      entry.contexts.add(context);
+    }
+  });
 
   if (entry.checksum && entry.checksum === calculateChecksum(entry)) {
-    context = parentContext;
     return entry.value;
   }
 
-  if (entry.deps && entry.deps.size) {
-    entry.deps.forEach(function (depEntry) {
-      if (depEntry.contexts) depEntry.contexts.delete(entry);
-    });
-    entry.deps = undefined;
-  }
-
   try {
+    contextStack.add(entry);
+
+    if (entry.observed && entry.deps && entry.deps.size) {
+      entry.deps.forEach(function (depEntry) {
+        depEntry.contexts.delete(entry);
+      });
+    }
+
+    entry.deps = undefined;
     var nextValue = getter(target, entry.value);
 
     if (nextValue !== entry.value) {
@@ -564,18 +575,22 @@ function get(target, key, getter) {
     }
 
     entry.checksum = calculateChecksum(entry);
-    context = parentContext;
+    contextStack.delete(entry);
   } catch (e) {
-    context = null;
+    entry.checksum = 0;
+    contextStack.delete(entry);
+    contextStack.forEach(function (context) {
+      context.deps.delete(entry);
+      if (context.observed) entry.contexts.delete(context);
+    });
     throw e;
   }
 
   return entry.value;
 }
 
-function set(target, key, setter, value) {
-  if (context) {
-    context = null;
+function set(target, key, setter, value, force) {
+  if (contextStack.size && !force) {
     throw Error("Try to set '".concat(key, "' of '").concat((0, _utils.stringifyElement)(target), "' in get call"));
   }
 
@@ -583,6 +598,7 @@ function set(target, key, setter, value) {
   var newValue = setter(target, value, entry.value);
 
   if (newValue !== entry.value) {
+    entry.checksum = 0;
     entry.state += 1;
     entry.value = newValue;
     dispatchDeep(entry);
@@ -590,13 +606,13 @@ function set(target, key, setter, value) {
 }
 
 function invalidate(target, key, clearValue) {
-  if (context) {
-    context = null;
+  if (contextStack.size) {
     throw Error("Try to invalidate '".concat(key, "' in '").concat((0, _utils.stringifyElement)(target), "' get call"));
   }
 
   var entry = getEntry(target, key);
   entry.checksum = 0;
+  entry.state += 1;
   dispatchDeep(entry);
 
   if (clearValue) {
@@ -604,10 +620,28 @@ function invalidate(target, key, clearValue) {
   }
 }
 
-function observe(target, key, fn) {
+function observe(target, key, getter, fn) {
   var entry = getEntry(target, key);
   entry.observed = true;
-  return emitter.subscribe(entry, fn);
+  var lastValue;
+  var unsubscribe = emitter.subscribe(entry, function () {
+    var value = get(target, key, getter);
+
+    if (value !== lastValue) {
+      fn(target, value, lastValue);
+      lastValue = value;
+    }
+  });
+  return function unobserve() {
+    unsubscribe();
+    entry.observed = false;
+
+    if (entry.deps && entry.deps.size) {
+      entry.deps.forEach(function (depEntry) {
+        depEntry.contexts.delete(entry);
+      });
+    }
+  };
 }
 },{"./utils":"node_modules/hybrids/esm/utils.js","./emitter":"node_modules/hybrids/esm/emitter.js"}],"node_modules/hybrids/esm/define.js":[function(require,module,exports) {
 
@@ -835,24 +869,16 @@ function compile(Hybrid, descriptors) {
       configurable: "development" !== 'production'
     });
 
+    if (config.observe) {
+      Hybrid.callbacks.push(function (host) {
+        return cache.observe(host, key, config.get, config.observe);
+      });
+    }
+
     if (config.connect) {
       Hybrid.callbacks.push(function (host) {
         return config.connect(host, key, function () {
           cache.invalidate(host, key);
-        });
-      });
-    }
-
-    if (config.observe) {
-      Hybrid.callbacks.push(function (host) {
-        var lastValue;
-        return cache.observe(host, key, function () {
-          var value = host[key];
-
-          if (value !== lastValue) {
-            config.observe(host, value, lastValue);
-            lastValue = value;
-          }
         });
       });
     }
@@ -886,7 +912,7 @@ if ("development" !== 'production') {
             var hybrids = updateQueue.get(node.constructor);
             node.disconnectedCallback();
             Object.keys(node.constructor.hybrids).forEach(function (key) {
-              cache.invalidate(node, key, node[key] === hybrids[key]);
+              cache.invalidate(node, key, node.constructor.hybrids[key] !== hybrids[key]);
             });
             node.connectedCallback();
           }
@@ -1352,12 +1378,16 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
-var eventMap = new WeakMap();
+var targets = new WeakMap();
 
 function resolveEventListener(eventType) {
   return function (host, target, value, lastValue) {
     if (lastValue) {
-      target.removeEventListener(eventType, eventMap.get(lastValue), lastValue.options !== undefined ? lastValue.options : false);
+      var eventMap = targets.get(target);
+
+      if (eventMap) {
+        target.removeEventListener(eventType, eventMap.get(lastValue), lastValue.options !== undefined ? lastValue.options : false);
+      }
     }
 
     if (value) {
@@ -1365,8 +1395,18 @@ function resolveEventListener(eventType) {
         throw Error("Event listener must be a function: ".concat(_typeof(value)));
       }
 
-      eventMap.set(value, value.bind(null, host));
-      target.addEventListener(eventType, eventMap.get(value), value.options !== undefined ? value.options : false);
+      var _eventMap = targets.get(target);
+
+      if (!_eventMap) {
+        _eventMap = new WeakMap();
+        targets.set(target, _eventMap);
+      }
+
+      var callback = value.bind(null, host);
+
+      _eventMap.set(value, callback);
+
+      target.addEventListener(eventType, callback, value.options !== undefined ? value.options : false);
     }
   };
 }
@@ -1548,6 +1588,10 @@ function _nonIterableRest() {
 }
 
 function _iterableToArrayLimit(arr, i) {
+  if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
+    return;
+  }
+
   var _arr = [];
   var _n = true;
   var _d = false;
@@ -1709,7 +1753,13 @@ function createInternalWalker(context) {
       } else if (node.nextSibling) {
         node = node.nextSibling;
       } else {
-        node = node.parentNode.nextSibling;
+        var parentNode = node.parentNode;
+        node = parentNode.nextSibling;
+
+        while (!node && parentNode !== context) {
+          parentNode = parentNode.parentNode;
+          node = parentNode.nextSibling;
+        }
       }
 
       return !!node;
@@ -1856,7 +1906,7 @@ function compileTemplate(rawParts, isSVG, styles) {
 
     if (template !== data.template) {
       if (data.template || target.nodeType === Node.ELEMENT_NODE) (0, _utils2.removeTemplate)(target);
-      data.lastArgs = null;
+      data.prevArgs = null;
       var fragment = document.importNode(applyShadyCSS(template, host.tagName).content, true);
       var renderWalker = createWalker(fragment);
       var clonedParts = parts.slice(0);
@@ -1906,20 +1956,23 @@ function compileTemplate(rawParts, isSVG, styles) {
       }
     }
 
+    var prevArgs = data.prevArgs;
+    data.prevArgs = args;
+
     for (var index = 0; index < data.markers.length; index += 1) {
       var _data$markers$index = _slicedToArray(data.markers[index], 2),
           _node = _data$markers$index[0],
           marker = _data$markers$index[1];
 
-      if (!data.lastArgs || data.lastArgs[index] !== args[index]) {
-        marker(host, _node, args[index], data.lastArgs ? data.lastArgs[index] : undefined);
+      if (!prevArgs || prevArgs[index] !== args[index]) {
+        marker(host, _node, args[index], prevArgs ? prevArgs[index] : undefined);
       }
     }
 
     if (target.nodeType !== Node.TEXT_NODE) {
       (0, _utils.shadyCSS)(function (shady) {
         if (host.shadowRoot) {
-          if (data.lastArgs) {
+          if (prevArgs) {
             shady.styleSubtree(host);
           } else {
             shady.styleElement(host);
@@ -1927,8 +1980,6 @@ function compileTemplate(rawParts, isSVG, styles) {
         }
       });
     }
-
-    data.lastArgs = args;
   };
 }
 },{"../utils":"node_modules/hybrids/esm/utils.js","./utils":"node_modules/hybrids/esm/template/utils.js","./resolvers/value":"node_modules/hybrids/esm/template/resolvers/value.js","./resolvers/property":"node_modules/hybrids/esm/template/resolvers/property.js"}],"node_modules/hybrids/esm/template/helpers.js":[function(require,module,exports) {
@@ -2261,7 +2312,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51289" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58713" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -44,7 +44,33 @@ harvestproc.go contains a pub/sub functions which stores into firebase.
 The model defined in feed.go is mapped to both firebase and json results.
 
 
-# Webcomponent
+# Webcomponent stillinger.js for arbeidsplassen
+
+Demo [https://tovare.com/jobb/](https://tovare.com/jobb/)
+
+This 30 Kb web component fetches directly from arbeidsplassen.nav.no 
+
+Example:
+    <script src="stillinger.js" async></script>
+    <stilling municipal="Viken" size="10"> </stilling>
+
+Supported parameter:
+  *  size
+  *  municipal
+  *  county
+  *  size
+
+All component-properties are reactive.
+
+   // Get the element by the id you set.
+   var s = document.getElementById("#mystillinger");
+   // Change the property directly (not via setProperty)
+   // this will cause the component to fetch updated data.
+   s.municipal = "Oslo"
+
+
+
+# Webcomponent tovare.com
 
 Demo [https://tovare.com/jobb/](https://tovare.com/jobb/)
 
