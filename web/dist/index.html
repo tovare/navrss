@@ -8,6 +8,7 @@
     <title>Stillinger</title>
         <script src="/stillinger.js" async=""></script>
     </head>
+    <link rel="manifest" href="/static/manifest.js">
 
 <body>
 <style>h1 { 
@@ -63,23 +64,26 @@ window.endreKommune = endreKommune;
 window.endreFylke = endreFylke;</script>
 
 
-    Velg antall stillinger: <select id="nstillinger" onchange="window.endreAntall()">
-        <option value="1">1</option>
+<label>Velg antall stillinger: 
+    <select id="nstillinger" onchange="window.endreAntall()">
+    <option value="1">1</option>
         <option value="2">2</option>
         <option value="3" selected="selected">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
-      </select> <br>
+      </select>
+</label> <br>
 
-
+<label>
     Filtrer på kommune:
         <input id="nmunicipal" type="text" onchange="window.endreKommune()">
-        <br>
-    
+    </label>
+    <br>
+<label>
     Filtrer på fylke:
         <input id="ncounty" type="text" onchange="window.endreFylke()"> 
         <br>
-
+    </label>
 
       <nav-stillinger id="stillinger" antall="3" orgnr=""></nav-stillinger>
 

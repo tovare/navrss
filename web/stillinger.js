@@ -1,6 +1,5 @@
 import { define, html, render,property } from 'hybrids';
 
-
 function hentStillinger(token,antall,municipal,orgnr,county)  {
     const auth = "Bearer "+token
     const url = "https://arbeidsplassen.nav.no/public-feed/api/v1/ads?size="+antall
@@ -34,25 +33,6 @@ const Stillinger = {
         h: "hello",
         render: ({ antall, s, h }) =>html `
 <style>
-:host {
-    display: block;
-    box-sizing: border-box;
-}
-:host([hidden]) {
-    display: none;
-    box-sizing: border-box;
-}
-
-table {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
-}
-
-th, td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-} 
 </style>
     ${html.resolve(
         s.then(({totalElements, content}) => html`
@@ -63,9 +43,7 @@ th, td {
         <div innerHTML="${description}"></div>
 
         `)}        
-    
-        `)
-          .catch(() => "ERROR"), html`
+    `).catch(() => "ERROR"), html`
           <p><h1 style="text-align: center;">Henter stillinger...</h1></p>`,1000)
       }
      </div>

@@ -119,7 +119,8 @@ func (jobs Jobs) renderRSS() string {
 			GUID:    v.Link,
 			PubDate: v.Published.Format(time.RFC1123Z),
 			//Author:  nil,
-			Content: Cdata{v.Description},
+			Content:     Cdata{v.OccupationCategories[0].Level1 + ", " + v.OccupationCategories[0].Level2 + "  " + v.Employer.Name + " (" + v.WorkLocations[0].City + ")"},
+			Description: Cdata{v.Description},
 		}
 
 		res.Channel.Items = append(res.Channel.Items, i)

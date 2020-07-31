@@ -8,7 +8,7 @@ import (
 
 func TestFeed(t *testing.T) {
 	payload := strings.NewReader("")
-	req := httptest.NewRequest("GET", "/?view=json", payload)
+	req := httptest.NewRequest("GET", "/?view=rss", payload)
 	rr := httptest.NewRecorder()
 	RSSFeed(rr, req)
 	t.Log(rr.Body.String())

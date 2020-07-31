@@ -2,7 +2,9 @@ feed.code-workspace
 out.txt
 .env.yaml
 harvest/NAV Stillinger-3100c6cb4edc.json
+harvest/NAVStillinger-3100c6cb4edc.json
 NAV Stillinger-3100c6cb4edc.json
+NAVStillinger-3100c6cb4edc.json
 .DS_Store
 web/node_modules
 web/.cache

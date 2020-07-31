@@ -35,8 +35,8 @@ type Item struct {
 	GUID    string `xml:"guid"`
 	PubDate string `xml:"pubDate"`
 	//Author      string `xml:"author"`
-	Description string `xml:"description"`
-	Content     Cdata  `xml:"content:encoded"`
+	Description Cdata `xml:"description"`
+	Content     Cdata `xml:"content:encoded"`
 	//Encoded     string `xml:"encoded"`
 }
 

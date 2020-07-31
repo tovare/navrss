@@ -28,10 +28,10 @@ https://tovare.com/jobb/rss?size=100&municipal=BERGEN
 See the quickstart documentation https://cloud.google.com/functions/
 
 ### With development token:
-gcloud functions deploy RSSFeed --memory=128 --runtime go111 --trigger-http
+gcloud functions deploy RSSFeed --memory=128 --runtime go113 --trigger-http
 
 ### With production token from NAV:
-gcloud functions deploy RSSFeed --memory=128 --runtime go111 --trigger-http --env-vars-file .env.yaml
+gcloud functions deploy RSSFeed --memory=128 --runtime go113 --trigger-http --env-vars-file .env.yaml
 
 Create a filee for enviromeent configuration .env.yaml contains:
 ```
@@ -43,6 +43,7 @@ ARBEIDAPI: "<insert key>"
 harvestproc.go contains a pub/sub functions which stores into firebase.
 The model defined in feed.go is mapped to both firebase and json results.
 
+gcloud functions deploy UpdateAndStore --memory=128 --runtime go113 --trigger-topic oppdater
 
 # Webcomponent stillinger.js for arbeidsplassen
 
